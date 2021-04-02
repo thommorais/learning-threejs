@@ -70,7 +70,7 @@ scene.add(pointLight)
 const cubeTextureLoader = new THREE.CubeTextureLoader()
 
 
-const ambient = 0
+const ambient = 1
 
 const enviromentMapTexture = cubeTextureLoader.load([
     `/textures/environmentMaps/${ambient}/px.jpg`,
@@ -86,6 +86,7 @@ const enviromentMapTexture = cubeTextureLoader.load([
  */
 
 const material = new THREE.MeshStandardMaterial()
+// material.wireframe = true
 
 // material.map = doorColorTexture
 // material.aoMap = doorAmbientOcclusionTexture
@@ -131,7 +132,16 @@ sphere.geometry.setAttribute('uv2', new THREE.BufferAttribute(sphere.geometry.at
 sphere.position.x = - 1.5
 
 
-scene.add(plane, sphere)
+const cube = new THREE.Mesh(
+    new THREE.BoxGeometry(1, 1, 1, 124),
+    material
+)
+cube.geometry.setAttribute('uv2', new THREE.BufferAttribute(sphere.geometry.attributes.uv.array, 2))
+cube.position.x =  1.5
+
+
+
+scene.add(plane, sphere, cube)
 
 window.addEventListener('resize', () =>
 {
