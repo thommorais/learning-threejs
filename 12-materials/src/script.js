@@ -1,6 +1,20 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import {GUI} from 'dat.gui'
+import Stats from 'stats-js'
+
+const stats = new Stats()
+
+stats.showPanel(0)
+document.body.appendChild( stats.dom )
+
+/**
+ * Debug
+ */
+
+const gui = new GUI()
+
 
 /**
  * Base
@@ -45,14 +59,18 @@ scene.add(pointLight)
 // const doorMetalnessTexture = textureLoader.load('/textures/door/metalness.jpg')
 // const doorRoughnessTexture = textureLoader.load('/textures/door/roughness.jpg')
 // const matcapTexture = textureLoader.load('/textures/matcaps/3.png')
-// const gradientTexture = textureLoader.load('/textures/gradients/3.jpg')
-
-
+// const gradientTexture = textureLoader.load('/textures/gradients/5.jpg')
+// gradientTexture.minFilter = THREE.NearestFilter
+// gradientTexture.magFilter = THREE.NearestFilter
+// gradientTexture.generateMipmaps = false
 /**
  * Objects
  */
 
-const material = new THREE.MeshLambertMaterial()
+const material = new THREE.MeshStandardMaterial()
+material.metalness = 0.45
+
+gui.add(material, 'metalness').min(0).max(1).step(0.0001)
 
 const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.5, 16, 16),
@@ -119,9 +137,10 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  * Animate
  */
 const clock = new THREE.Clock()
-
 const tick = () =>
 {
+    stats.begin()
+
     const elapsedTime = clock.getElapsedTime()
 
 
@@ -142,6 +161,7 @@ const tick = () =>
     renderer.render(scene, camera)
 
     // Call tick again on the next frame
+    stats.end()
     window.requestAnimationFrame(tick)
 }
 
