@@ -19,20 +19,32 @@ const sizes = {
     height: window.innerHeight
 }
 
+
+/**
+ * Lights
+ */
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+scene.add(ambientLight)
+
+const pointLight = new THREE.PointLight(0xffffff, 0.5)
+scene.add(pointLight)
+
+
+
 /**
  * textures
  */
 
-const textureLoader = new THREE.TextureLoader()
-
-const doorColorTexture = textureLoader.load('/textures/door/color.jpg')
+// const textureLoader = new THREE.TextureLoader()
+// const doorColorTexture = textureLoader.load('/textures/door/color.jpg')
 // const doorAlphaTexture = textureLoader.load('/textures/door/alpha.jpg')
 // const doorAmbientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg')
 // const doorHeightTexture = textureLoader.load('/textures/door/height.jpg')
 // const doorNormalTexture = textureLoader.load('/textures/door/normal.jpg')
 // const doorMetalnessTexture = textureLoader.load('/textures/door/metalness.jpg')
 // const doorRoughnessTexture = textureLoader.load('/textures/door/roughness.jpg')
-const matcapTexture = textureLoader.load('/textures/matcaps/1.png')
+// const matcapTexture = textureLoader.load('/textures/matcaps/3.png')
 // const gradientTexture = textureLoader.load('/textures/gradients/3.jpg')
 
 
@@ -40,18 +52,14 @@ const matcapTexture = textureLoader.load('/textures/matcaps/1.png')
  * Objects
  */
 
-const material = new THREE.MeshNormalMaterial()
-material.flatShading = true
-
-// material.map = doorColorTexture
-// material.color = new THREE.Color(0x990000)
-// material.side = THREE.BackSide
+const material = new THREE.MeshLambertMaterial()
 
 const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.5, 16, 16),
     material
 )
 sphere.position.x = -1.5
+
 
 const plane = new THREE.Mesh(
     new THREE.PlaneGeometry(1, 1),
@@ -91,7 +99,7 @@ window.addEventListener('resize', () =>
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = 1
 camera.position.y = 1
-camera.position.z = 2
+camera.position.z = 3
 scene.add(camera)
 
 // Controls
